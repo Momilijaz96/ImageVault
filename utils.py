@@ -1,6 +1,6 @@
 # All utils used for various purposes
 import pandas as pd
-
+import cv2
 def read_csv(file_path):
     """
     Read a csv file and return a pandas dataframe
@@ -16,6 +16,6 @@ def df_row_to_mongo_object(df_row):
 
 def compress_image(image,new_height,new_width):
     """
-    Compress an image to a new size
+    Compress an numpy array image to a new size
     """
-    return image.resize((new_height, new_width))
+    return cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_AREA)
