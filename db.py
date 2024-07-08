@@ -26,7 +26,7 @@ class ImageDB:
         self.client = MongoClient(mongo_uri)
         self.db = self.client[db_name]
 
-    def insert_image(self, image_array, image_id, collection='images'):
+    def insert_image(self, image_array, image_id, collection=os.getenv("MONGO_COLLECTION", "images")):
         """
         Insert a new image to the database
         """
@@ -42,10 +42,10 @@ class ImageDB:
         return False
     
     # Function to retrieve an image and convert it back to a NumPy array
-    def retrieve_image(self, image_id, collection='images'):
+    def retrieve_image(self, image_id, collection=os.getenv("MONGO_COLLECTION", "images")):
         try:
             image_collection = self.db[collection]
-            document = image_collection.find_one({'_id': image_id})
+            document = image_collection.find_one({'image_id': image_id})
             if document:
                 # Convert bytes back to NumPy array
                 image_array = np.frombuffer(document['image_data'],dtype=np.uint8)
