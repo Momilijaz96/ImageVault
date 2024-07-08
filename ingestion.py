@@ -25,9 +25,13 @@ def ingest_image(df):
         compressed_image = compress_image(image_array, image_array.shape[0], 150)
 
         # Insert the compressed image to MongoDB
-        images_db.insert_image(compressed_image, image_id)
+        status = images_db.insert_image(compressed_image, image_id)
 
-        count += 1
+        if status:
+            count += 1
+        else:
+            break
+        
     
     return count
 
